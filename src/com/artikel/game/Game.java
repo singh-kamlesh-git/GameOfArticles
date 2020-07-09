@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -159,6 +160,13 @@ public class Game extends JFrame implements ActionListener {
 			questionNounEnglish.setText("    "+question.getQuestionEnglish());
 			questionNounEnglish.setVisible(true);
 			List<String> options = question.getOptions();
+			
+			rb1.setVisible(false);
+			rb2.setVisible(false);
+			rb3.setVisible(false);
+			rb4.setVisible(false);
+			G1.clearSelection();
+			
 			if(options.get(0)!=null) {
 				rb1.setText("A) "+options.get(0));
 				rb1.setVisible(true);
@@ -261,7 +269,16 @@ public class Game extends JFrame implements ActionListener {
 	            String value2 = cell2==null?"":cell2.getStringCellValue();
 	            String value3 = cell3==null?"":cell3.getStringCellValue();
 	            String value4 = cell4==null?"":cell4.getStringCellValue();
-	            String value5 = cell5==null?"":cell5.getStringCellValue();
+	            String value5 = "";
+	            if (cell5!=null && CellType.NUMERIC == cell5.getCellType()) {
+	            	value5 = ""+cell5.getNumericCellValue();
+	            	if(value5.endsWith(".0")){
+	            		value5 = value5.replace(".0", "");
+	            	}
+	            }else if(cell5!=null){
+	            	value5 = cell5.getStringCellValue();
+	            }
+	            
 	            ArtikelRow aRow = new ArtikelRow();
 	            aRow.setQuestionAction(value1);
 	            aRow.setQuestion(value2);
